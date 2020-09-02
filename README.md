@@ -1,54 +1,64 @@
 CLH Queue Lock maintains a linked-list for
 threads waiting to enter critical section (CS).
 
-Each thread that wants to enter CS joins at the
-end of the queue, and waits for the thread
-infront of it to finish its CS.
-So, it locks itself and asks the thread infront
-of it, to unlock it when he's done. Atomics
+Each thread that wants to enter CS raises its
+hand, joins at the end of the queue, and waits
+for the thread infront of it to lower its hand
+(indicating that he has finishes his CS). Then
+it enters its CS.
+
+Once the thread is done with CS, it lowers its
+hand and moves to take the place of the thread
+standing infront of it. To ensure that there is
+always a thread infront of another, the queue
+is initialized with a dummy node. Atomic
 instructions are used when updating the shared
-queue. Corner cases are also takes care of.
+queue.
 
-As each thread waits (spins) on its own "locked"
-field, this type of lock is suitable for
-cache-less NUMA architectures. The MCSLock is
-due to [John Mellor-Crummey] and [Michael Scott].
+As each thread waits (spins) on its predecessor's
+hand status "locked" field only, cache invalidate
+only occurs due to the predecessor. Also, this
+does not require the knowledge of number of
+threads before hand. This also provides first-
+come-first-served fairness. The CLHLock is
+due to [Travis Craig], [Erik Hagersten], and
+[Anders Landin].
 
-[John Mellor-Crummey]: https://scholar.google.com/citations?user=wX0XpxMAAAAJ&hl=en
-[Michael Scott]: https://scholar.google.com/citations?user=PzaBy-UAAAAJ&hl=en
+[Travis Craig]: https://www.semanticscholar.org/author/T.-O.-Craig/144386870
+[Erik Hagersten]: https://scholar.google.se/citations?user=0D8vpBwAAAAJ&hl=en
+[Anders Landin]: https://scholar.google.se/citations?hl=en&user=FO4ByfoAAAAJ
 
 ```java
 1. When thread wants to access critical
-   section, it stands at the end of the
-   queue (FIFO).
-2a. If there is no one in queue, it goes head
-    with its critical section.
-2b. Otherwise, it locks itself and asks the
-    thread infront of it to unlock it when its
-    done with CS.
+   section, it raises its hand "locked" and
+   stands at the end of the queue (FIFO).
+2. If thread standing infront has his hand
+   raised "locked", it waits for him to be
+   done with CS.
 ```
 
 ```java
 1. When a thread is done with its critical
-   section, it needs to unlock any thread
-   standing behind it.
-2a. If there is a thread standing behind,
-    then it unlocks him.
-2b. Otherwise it tries to mark queue as empty.
-     If no one is joining, it leaves.
-2c. If there is a thread trying to join the
-    queue, it waits until he is done, and then
-    unlocks him, and leaves.
+   section, it drops down its hand "locked".
+2. It then takes the place of the thread
+   standing infront of it.
 ```
 
-See [MCSLock.java] for code, [Main.java] for test, and [repl.it] for output.
+```java
+(To ensure that there is always a thread
+ infront of another, the queue is
+ initialized with a dummy node.)
+```
 
-[MCSLock.java]: https://repl.it/@wolfram77/mcs-lock#MCSLock.java
-[Main.java]: https://repl.it/@wolfram77/mcs-lock#Main.java
-[repl.it]: https://mcs-lock.wolfram77.repl.run
+See [CLHLock.java] for code, [Main.java] for test, and [repl.it] for output.
+
+[CLHLock.java]: https://repl.it/@wolfram77/clh-lock#CLHLock.java
+[Main.java]: https://repl.it/@wolfram77/clh-lock#Main.java
+[repl.it]: https://clh-lock.wolfram77.repl.run
 
 
 ### references
 
 - [The Art of Multiprocessor Programming :: Maurice Herlihy, Nir Shavit](https://dl.acm.org/doi/book/10.5555/2385452)
-- [Algorithms for scalable synchronization on shared-memory multiprocessors :: John M. Mellor-Crummey, Michael L. Scott](https://dl.acm.org/doi/10.1145/103727.103729)
+- [Building FIFO and priority-queueing spin locks from atomic swap :: Travis Craig](https://www.semanticscholar.org/paper/Building-FIFO-and-Priority-Queuing-Spin-Locks-from-Craig/f808a588b9a9b60877edc39b457ffd55db10dd7d)
+- [Queue locks on cache coherent multiprocessors :: Peter S. Magnusson, Anders Landin, Erik Hagersten](https://ieeexplore.ieee.org/document/288305)
