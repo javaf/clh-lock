@@ -1,7 +1,5 @@
-import java.util.function.*;
-
 class Main {
-  static MCSLock lock;
+  static CLHLock lock;
   static double[] sharedData;
   static int SD = 100, CS = 100, TH = 10;
   // SD: shared data srray size
@@ -72,7 +70,7 @@ class Main {
   }
 
   public static void main(String[] args) {
-    lock = new MCSLock();
+    lock = new CLHLock();
     sharedData = new double[SD];
     testThreads(false);
     testThreads(true);

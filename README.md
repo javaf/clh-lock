@@ -1,4 +1,4 @@
-MCS Queue Lock maintains a linked-list for
+CLH Queue Lock maintains a linked-list for
 threads waiting to enter critical section (CS).
 
 Each thread that wants to enter CS joins at the
