@@ -2,7 +2,7 @@ class Main {
   static CLHLock lock;
   static double[] sharedData;
   static int SD = 100, CS = 100, TH = 10;
-  // SD: shared data srray size
+  // SD: shared data array size
   // CS: critical section executed per thread
   // TH: number of threads
 
