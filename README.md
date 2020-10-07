@@ -29,6 +29,7 @@ due to [Travis Craig], [Erik Hagersten], and
 [Anders Landin]: https://scholar.google.se/citations?hl=en&user=FO4ByfoAAAAJ
 
 ```java
+lock():
 1. When thread wants to access critical
    section, it raises its hand "locked" and
    stands at the end of the queue (FIFO).
@@ -38,6 +39,7 @@ due to [Travis Craig], [Erik Hagersten], and
 ```
 
 ```java
+unlock():
 1. When a thread is done with its critical
    section, it drops down its hand "locked".
 2. It then takes the place of the thread
