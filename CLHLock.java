@@ -1,5 +1,3 @@
-import java.util.concurrent.*;
-import java.util.concurrent.locks.*;
 import java.util.concurrent.atomic.*;
 
 // CLH Queue Lock maintains a linked-list for
@@ -26,7 +24,7 @@ import java.util.concurrent.atomic.*;
 // threads before hand. This also provides first-
 // come-first-served fairness.
 
-class CLHLock implements Lock {
+class CLHLock extends AbstractLock {
   AtomicReference<QNode> queue;
   ThreadLocal<QNode> node;
   ThreadLocal<QNode> pred;
@@ -72,27 +70,5 @@ class CLHLock implements Lock {
     QNode n = node.get(); // 1
     n.locked = false;     // 1
     node.set(pred.get()); // 2
-  }
-
-  @Override
-  public void lockInterruptibly() throws InterruptedException {
-    lock();
-  }
-
-  @Override
-  public boolean tryLock() {
-    lock();
-    return true;
-  }
-
-  @Override
-  public boolean tryLock(long arg0, TimeUnit arg1) throws InterruptedException {
-    lock();
-    return true;
-  }
-
-  @Override
-  public Condition newCondition() {
-    return null;
   }
 }
