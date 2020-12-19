@@ -28,6 +28,11 @@ due to [Travis Craig], [Erik Hagersten], and
 [Erik Hagersten]: https://scholar.google.se/citations?user=0D8vpBwAAAAJ&hl=en
 [Anders Landin]: https://scholar.google.se/citations?hl=en&user=FO4ByfoAAAAJ
 
+> **Course**: [Concurrent Data Structures], Monsoon 2020\
+> **Taught by**: Prof. Govindarajulu Regeti
+
+[Concurrent Data Structures]: https://github.com/iiithf/concurrent-data-structures
+
 ```java
 lock():
 1. When thread wants to access critical
