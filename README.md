@@ -69,3 +69,5 @@ See [CLHLock.java] for code, [Main.java] for test, and [repl.it] for output.
 - [The Art of Multiprocessor Programming :: Maurice Herlihy, Nir Shavit](https://dl.acm.org/doi/book/10.5555/2385452)
 - [Building FIFO and priority-queueing spin locks from atomic swap :: Travis Craig](https://www.semanticscholar.org/paper/Building-FIFO-and-Priority-Queuing-Spin-Locks-from-Craig/f808a588b9a9b60877edc39b457ffd55db10dd7d)
 - [Queue locks on cache coherent multiprocessors :: Peter S. Magnusson, Anders Landin, Erik Hagersten](https://ieeexplore.ieee.org/document/288305)
+
+![](https://ga-beacon.deno.dev/G-G1E8HNDZYY:v51jklKGTLmC3LAZ4rJbIQ/github.com/javaf/clh-lock)
