@@ -71,3 +71,4 @@ See [CLHLock.java] for code, [Main.java] for test, and [repl.it] for output.
 - [Queue locks on cache coherent multiprocessors :: Peter S. Magnusson, Anders Landin, Erik Hagersten](https://ieeexplore.ieee.org/document/288305)
 
 ![](https://ga-beacon.deno.dev/G-G1E8HNDZYY:v51jklKGTLmC3LAZ4rJbIQ/github.com/javaf/clh-lock)
+![](https://ga-beacon.deno.dev/G-G1E8HNDZYY:v51jklKGTLmC3LAZ4rJbIQ/github.com/moocf/clh-lock.java)
